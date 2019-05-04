@@ -2,7 +2,6 @@ use bamazon;
 
 delete from products;
 
-
 INSERT INTO products (product_name, price, department_name, stock_quantity)
 VALUES ("Sony MegaTV 2000", 5000, "Electronics", 100);
 

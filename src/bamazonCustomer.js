@@ -103,10 +103,31 @@ function recordPurchase(item, quantity) {
     ],
     function(err, res) {
       if (err) {
-        console.log("Error",err);
+        console.log("Purchase Error",err);
+      }
+      else {
+        console.log("Purchased");
+        recordTransaction(item, quantity);
+      }
+    });
+}    
+
+function recordTransaction(item, quantity) {
+  var query = connection.query(
+    "INSERT INTO transactions  SET ?",
+    {
+      item_id : item.item_id,
+      quantity: quantity,
+      type: 'Purchase',
+      description: 'Purchased by customer.'
+    },
+    function(err, res) {
+      if (err) {
+        console.log("Transaction Error",err);
       }
       else {
         console.log("Confirmed");
       }
-    });
-}    
+    }
+  );
+} 

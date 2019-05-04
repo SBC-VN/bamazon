@@ -18,9 +18,10 @@ ADD UNIQUE INDEX `product_name_UNIQUE` (`product_name` ASC) VISIBLE;
 
 CREATE TABLE transactions (
   transaction_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  date DATE NOT NULL,
+  date DATETIME DEFAULT CURRENT_TIMESTAMP,
   item_id INT NOT NULL,
-  quantity INT NULL,
+  quantity INT NOT NULL,
+  type VARCHAR(20) NOT NULL,
   description VARCHAR(80)
 );
 
