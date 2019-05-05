@@ -9,7 +9,8 @@ CREATE TABLE products (
   product_name VARCHAR(60) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
   department_name VARCHAR(40),
-  stock_quantity INT NOT NULL
+  stock_quantity INT NOT NULL,
+  product_sales DECIMAL(10,2) NULL
 );
 
 ALTER TABLE `bamazon`.`products` 
@@ -34,3 +35,9 @@ ADD CONSTRAINT `validate_product`
   REFERENCES `bamazon`.`products` (`item_id`)
   ON DELETE RESTRICT
   ON UPDATE RESTRICT;
+
+CREATE TABLE departments (
+  department_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  department_name VARCHAR(40) NOT NULL,
+  over_head_costs DECIMAL(10,2) NOT NULL
+);

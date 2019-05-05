@@ -31,3 +31,12 @@ VALUES ("Invisible Glass Cleaner", 5.06, "Grocery", 1650);
 
 INSERT INTO products (product_name, price, department_name, stock_quantity)
 VALUES ("Revlon Colorsilk Beautiful Color Permanent Hair Color", 4.44, "Health", 356);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Health","500");
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Electronics","750");
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Grocery","400");

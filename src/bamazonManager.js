@@ -20,7 +20,7 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
-  displayMgrMenu();  
+  displayMgrMenu();
 });
 
 // Not a full blown constructor, but a placeholder for one if needed.
@@ -81,6 +81,7 @@ function displayProducts(operation) {
         retRec = extractProductInfo(res[i]);
         console.log(retRec.item_id + " " + retRec.product_name + " " + retRec.price + " " + retRec.stock_quantity);
       }
+      connection.end();
     }
   });
 }
@@ -133,8 +134,7 @@ function updateInventoryQty(item, quantity) {
   var newQty = item.stock_quantity + quantity;
   console.log("New Quantity " + newQty);
 
-  var query = connection.query(
-    "UPDATE products SET ? WHERE ?",
+  var query = connection.query("UPDATE products SET ? WHERE ?",
     [
       {
         stock_quantity: newQty
@@ -149,18 +149,18 @@ function updateInventoryQty(item, quantity) {
       }
       else {
         console.log("Added");
+        recordTransaction(item, quantity,"Item update by manager");        
       }
     });
 }    
 
-function recordTransaction(item, quantity) {
-  var query = connection.query(
-    "INSERT INTO transactions  SET ?",
+function recordTransaction(item, quantity,comment) {
+  var query = connection.query("INSERT INTO transactions  SET ?",
     {
       item_id : item.item_id,
       quantity: quantity,
       type: 'Update',
-      description: 'Updated by manager.'
+      description: comment
     },
     function(err, res) {
       if (err) {
@@ -168,11 +168,13 @@ function recordTransaction(item, quantity) {
       }
       else {
         console.log("Confirmed");
+        connection.end();
       }
-    }
-  );
+    });
+}
 
-  function addNewProduct() {
+function addNewProduct() {
+    console.log("Add new product");
     inquirer
     .prompt([
       {
@@ -182,12 +184,12 @@ function recordTransaction(item, quantity) {
       },
       {
         name: "price",
-        type: "input",
+        type: "number",
         message: "How much does each one cost?"
       },
       {
         name: "stock_quantity",
-        type: "input",
+        type: "number",
         message: "How many are in inventory?"
       },
       {
@@ -197,33 +199,21 @@ function recordTransaction(item, quantity) {
       }
       ])
     .then(function(answer) {
-      console.log(answer);
+      insertNewProduct(answer);
     });
   }
 
   function insertNewProduct(item) {
-    console.log("     Product " + item.product_name);
-    console.log("Add Quantity " + quantity);
-    var newQty = item.stock_quantity + quantity;
-    console.log("New Quantity " + newQty);
-  
-    var query = connection.query(
-      "UPDATE products SET ? WHERE ?",
-      [
-        {
-          stock_quantity: newQty
-        },
-        {
-          item_id: item.item_id
-        }
-      ],
+    var query = connection.query("INSERT INTO products SET ?",
+      item,
       function(err, res) {
         if (err) {
-          console.log("Add Error",err);
+          console.log("Add Item Error",err);
         }
         else {
-          console.log("Added");
+          console.log("Added New Item");
+          item.item_id = res.insertId;
+          recordTransaction(item, item.stock_quantity,"New item added by manager");
         }
       });
   } 
-} 

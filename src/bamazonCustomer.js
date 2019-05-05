@@ -30,14 +30,15 @@ function extractProductInfo(datarow) {
     product_name : datarow.product_name,
     price : datarow.price,
     department_name : datarow.department_name,
-    stock_quantity : datarow.stock_quantity};
+    stock_quantity : datarow.stock_quantity,
+    product_sales : datarow.product_sales };
   return ProductInfo;
 } 
 
 // Read the database, extract the products into an array - then call the next function
 //  down the line (select the product & quantity).
 function displayProducts() {
-  connection.query("SELECT item_id, product_name, price, department_name, stock_quantity FROM products", 
+  connection.query("SELECT item_id, product_name, price, department_name, stock_quantity, product_sales FROM products", 
     function(err, res) {
       if (err) throw err;
       else {
@@ -90,12 +91,14 @@ function recordPurchase(item, quantity) {
   console.log("Total Cost " + quantity * item.price);
 
   var newQty = item.stock_quantity - quantity;
+  var newSales = item.product_sales + quantity * item.price;
 
   var query = connection.query(
     "UPDATE products SET ? WHERE ?",
     [
       {
-        stock_quantity: newQty
+        stock_quantity: newQty,
+        product_sales: newSales
       },
       {
         item_id: item.item_id
@@ -127,6 +130,7 @@ function recordTransaction(item, quantity) {
       }
       else {
         console.log("Confirmed");
+        connection.end();
       }
     }
   );
