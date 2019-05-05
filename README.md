@@ -20,3 +20,36 @@ When the customer has made a selection, it confirms the purchase and displays al
 
 The manager can see the change in inventory in their display screen.
 ![4](images/4.png)
+
+The application presents the manager with other options
+![5](images/5.png)
+
+They can add inventory:
+![6](images/6.png)
+![7](images/7.png)
+
+This will, of course, show up in the inventory display screen:
+![8](images/8.png)
+
+If the customer attempts to buy more inventory than there is, they will get an error message.
+![9](images/9.png)
+![10](images/10.png)
+
+The manager can use their superpowers to see the inventory items that are low stock.
+![11](images/11.png)
+
+The manager can then use the app to add additional inventory.
+![12](images/12.png)
+
+The manager can add new products as well.
+![13](images/13.png)
+
+The supervisor has 3 options
+![14](images/14.png)
+
+They can add new departments
+![15](images/15.png)
+
+The supervisor can view the total sales by department.
+The supervisor also can audit the buy/add inventory transactions.
+![16](images/16.png)
