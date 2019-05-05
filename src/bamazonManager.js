@@ -1,5 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+const cTable = require('console.table');
 
 var productList = [];
 
@@ -46,7 +47,6 @@ function displayMgrMenu() {
         message: "Choose product operation"
       }])
     .then(function(answer) {
-      console.log(answer);
       switch (answer.choice) {
         case "View All": 
         case "View Low Inventory":
@@ -76,11 +76,12 @@ function displayProducts(operation) {
   function(err, res) {
     if (err) throw err;
     else {
-      var retRec;
-      for (var i = 0; i < res.length; i++) {
-        retRec = extractProductInfo(res[i]);
-        console.log(retRec.item_id + " " + retRec.product_name + " " + retRec.price + " " + retRec.stock_quantity);
-      }
+      console.table(res);
+      // var retRec;
+      // for (var i = 0; i < res.length; i++) {
+      //   retRec = extractProductInfo(res[i]);
+      //   console.log(retRec.item_id + " " + retRec.product_name + " " + retRec.price + " " + retRec.stock_quantity);
+      // }
       connection.end();
     }
   });

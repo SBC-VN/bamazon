@@ -1,8 +1,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var moment = require("moment");
-
-var productList = [];
+const cTable = require('console.table');
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -64,16 +63,7 @@ function displaySales() {
   function(err, res) {
     if (err) throw err;
     else {
-      console.log("ID     Name      Overhead      Sales      Profits");
-      for (var i = 0; i < res.length; i++) {
-        var depId = res[i].department_id;
-        var depName = res[i].department_name;
-        var depCosts = res[i].over_head_costs;
-        var depSales = res[i].sales || 0;
-        var depProfit = res[i].sales - res[i].over_head_costs;
-      
-        console.log(depId + " " + depName + " " + depCosts + " " + depSales + " " + depProfit);
-      } 
+      console.table(res);
       connection.end();
     }
   });
@@ -123,16 +113,10 @@ function createDepartment() {
     function(err, res) {
       if (err) throw err;
       else {
-        console.log("ID  Date       Product      Quantity      Description");
         for (var i = 0; i < res.length; i++) {
-          var transId = res[i].transaction_id;
-          var transDate = moment(res[i].date).format('MM/DD/YYYY');
-          var transProduct = res[i].product_name;
-          var transQty = res[i].quantity || 0;
-          var transDesc = res[i].description;
-        
-          console.log(transId + "   " + transDate + " " + transProduct + " " + transQty + " " + transDesc);
-        } 
+          res[i].date = moment(res[i].date).format('MM/DD/YYYY');
+        }
+        console.table(res);        
         connection.end();
       }
     });
