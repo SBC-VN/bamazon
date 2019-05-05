@@ -77,6 +77,7 @@ function selectProduct() {
       var chosenQty = parseInt(answer.quantity);
       if (chosenQty > chosenItem.stock_quantity) {
         console.log("No can buy!  There are only " + chosenItem.stock_quantity + " in stock.")
+        connection.end();
       }
       else {
         recordPurchase(chosenItem,chosenQty);
