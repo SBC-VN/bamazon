@@ -10,13 +10,13 @@ The supervisor app allows the supervisor to add departments, view sales by depar
 ### Detailed walk through.
 
 With the starting inventory (as displayed by the manager application):
-![1](Images/1.png)
+![1](./images/1.png)
 
 The customer app allows a customer to scroll through the list of items and select what they want to buy.  Then it asks them how many.
-![2](Images/2.png)
+![2](images/2.png)
 
 When the customer has made a selection, it confirms the purchase and displays all the pricing information.
-![3](Images/3.png)
+![3](images/3.png)
 
 The manager can see the change in inventory in their display screen.
-![4](Images/4.png)
+![4](images/4.png)
